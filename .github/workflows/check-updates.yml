@@ -25,7 +25,9 @@ jobs:
 
       - name: Check for upstream/main branch
         id: check_branch
-        run: echo "branch_exists=$(git branch -r | grep 'upstream/main' || echo '')" >> $GITHUB_ENV
+        run: |
+          UPSTREAM_BRANCH=$(git branch -r | grep 'upstream/main' || echo '')
+          echo "branch_exists=$UPSTREAM_BRANCH" >> $GITHUB_ENV
 
       - name: Check for updates
         id: check_updates
