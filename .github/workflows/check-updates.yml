@@ -18,7 +18,7 @@ jobs:
           git remote add upstream https://github.com/EricZimmerman/KapeFiles || true
 
       - name: Fetch updates from upstream
-        run: git fetch upstream || true
+        run: git fetch upstream
 
       - name: Check for updates
         id: check_updates
@@ -34,7 +34,7 @@ jobs:
             fi
           else
             echo "::set-output name=updates::"
-          
+
       - name: Write updates to log
         if: ${{ steps.check_updates.outputs.updates != '' }}
         run: |
