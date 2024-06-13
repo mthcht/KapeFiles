@@ -28,7 +28,9 @@ jobs:
         run: |
           if [ -n "${{ env.branch_exists }}" ]; then
             UPDATES=$(git log HEAD..upstream/master --oneline || echo '')
-            echo "updates=$UPDATES" >> $GITHUB_ENV
+            echo "updates<<EOF" >> $GITHUB_ENV
+            echo "$UPDATES" >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
           else
             echo "updates=" >> $GITHUB_ENV
           fi
@@ -45,7 +47,7 @@ jobs:
               echo "No new updates found." >> updates_log.txt
             fi
           else
-            echo "Upstream branch 'main' does not exist." >> updates_log.txt
+            echo "Upstream branch 'master' does not exist." >> updates_log.txt
           fi
           echo "---" >> updates_log.txt
 
@@ -55,4 +57,4 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add updates_log.txt
           git commit -m 'Update log with new updates'
-          git push origin master
+          git push origin HEAD:${{ github.ref_name }}
