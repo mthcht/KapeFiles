@@ -15,7 +15,7 @@ jobs:
 
       - name: Add original repository as upstream
         run: |
-          git remote add upstream <original-repo-url>
+          git remote add upstream https://github.com/EricZimmerman/KapeFiles
 
       - name: Fetch updates from upstream
         run: git fetch upstream
