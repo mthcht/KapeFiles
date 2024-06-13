@@ -15,36 +15,40 @@ jobs:
 
       - name: Add original repository as upstream
         run: |
-          git remote add upstream https://github.com/EricZimmerman/KapeFiles || true
+          git remote add upstream https://github.com/EricZimmerman/KapeFiles
 
       - name: Fetch updates from upstream
-        run: git fetch upstream || true
+        run: git fetch upstream
 
       - name: Check for updates
         id: check_updates
         run: |
-          set -e
           UPSTREAM_BRANCH=$(git branch -r | grep 'upstream/main' || true)
           if [ -n "$UPSTREAM_BRANCH" ]; then
             UPDATES=$(git log HEAD..upstream/main --oneline || true)
             if [ -n "$UPDATES" ]; then
-              echo "::set-output name=updates::$UPDATES"
+              echo "updates=$UPDATES" >> $GITHUB_ENV
+            else
+              echo "updates=Up to date" >> $GITHUB_ENV
             fi
           else
-            echo "::set-output name=updates::"
-          fi
+            echo "updates=Upstream branch not found" >> $GITHUB_ENV
+
+      - name: Debug - Show updates value
+        run: echo "Updates: ${{ env.updates }}"
 
       - name: Write updates to log
-        if: steps.check_updates.outputs.updates != ''
         run: |
           echo "Date: $(date +'%Y-%m-%d')" >> updates_log.txt
           echo "Repository: ${{ github.repository }}" >> updates_log.txt
           echo "Updates:" >> updates_log.txt
-          echo "${{ steps.check_updates.outputs.updates }}" >> updates_log.txt
+          echo "${{ env.updates }}" >> updates_log.txt
           echo "---" >> updates_log.txt
 
+      - name: Debug - Show log file content
+        run: cat updates_log.txt
+
       - name: Commit and push changes
-        if: steps.check_updates.outputs.updates != ''
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
