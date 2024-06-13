@@ -27,11 +27,7 @@ jobs:
           UPSTREAM_BRANCH=$(git branch -r | grep 'upstream/main' || true)
           if [ -n "$UPSTREAM_BRANCH" ]; then
             UPDATES=$(git log HEAD..upstream/main --oneline || true)
-            if [ -n "$UPDATES" ]; then
-              echo "::set-output name=updates::$UPDATES"
-            else
-              echo "::set-output name=updates::"
-            fi
+            echo "::set-output name=updates::$UPDATES"
           else
             echo "::set-output name=updates::"
 
