@@ -23,7 +23,6 @@ jobs:
       - name: Check for updates
         id: check_updates
         run: |
-          set -e
           UPSTREAM_BRANCH=$(git branch -r | grep 'upstream/main' || true)
           if [ -n "$UPSTREAM_BRANCH" ]; then
             UPDATES=$(git log HEAD..upstream/main --oneline || true)
