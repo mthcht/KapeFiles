@@ -15,7 +15,7 @@ jobs:
 
       - name: Add original repository as upstream
         run: |
-          git remote add upstream https://github.com/mthcht/KapeFiles || true
+          git remote add upstream <original-repo-url> || true
 
       - name: Fetch updates from upstream
         run: git fetch upstream || true
@@ -34,9 +34,9 @@ jobs:
             fi
           else
             echo "::set-output name=updates::"
-
+          
       - name: Write updates to log
-        if: steps.check_updates.outputs.updates != ''
+        if: ${{ steps.check_updates.outputs.updates != '' }}
         run: |
           echo "Date: $(date +'%Y-%m-%d')" >> updates_log.txt
           echo "Repository: ${{ github.repository }}" >> updates_log.txt
@@ -45,7 +45,7 @@ jobs:
           echo "---" >> updates_log.txt
 
       - name: Commit and push changes
-        if: steps.check_updates.outputs.updates != ''
+        if: ${{ steps.check_updates.outputs.updates != '' }}
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
