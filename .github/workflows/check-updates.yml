@@ -17,4 +17,3 @@ jobs:
           base: master
           head: master
           merge_method: merge
-          pr_title: Fork Sync: Update from parent repository
