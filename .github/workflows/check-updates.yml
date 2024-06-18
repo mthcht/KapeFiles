@@ -1,19 +1,19 @@
-name: Auto Sync Fork
+name: Sync Fork
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Runs every day at midnight
+    - cron: '*/30 * * * *' # every 30 minutes
   workflow_dispatch: # on button click
 
 jobs:
   sync:
+
     runs-on: ubuntu-latest
+
     steps:
       - uses: tgymnich/fork-sync@v2.0
         with:
           token: ${{ secrets.PERSONAL_TOKEN }}
           owner: EricZimmerman
-          repo: KapeFiles
           base: master
           head: master
-          merge_method: merge
