@@ -58,3 +58,6 @@ jobs:
           git add updates_log.txt
           git commit -m 'Update log with new updates'
           git push origin HEAD:${{ github.ref_name }}
+      - name: Fork Sync
+        uses: tgymnich/fork-sync@v2.0.10
+            
