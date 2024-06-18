@@ -12,4 +12,9 @@ jobs:
     steps:
       - name: Fork Sync
         uses: tgymnich/fork-sync@v2.0.10
-          
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          owner: llvm
+          base: master
+          head: master
+          auto_approve: true
