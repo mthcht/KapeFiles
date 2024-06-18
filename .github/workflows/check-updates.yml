@@ -7,9 +7,7 @@ on:
 
 jobs:
   sync:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: tgymnich/fork-sync@v2.0
         with:
@@ -20,8 +18,3 @@ jobs:
           head: master
           merge_method: merge
           pr_title: Fork Sync: Update from parent repository
-          ignore_fail: false
-          auto_approve: false
-          auto_merge: true
-          retries: 4
-          retry_after: 60
