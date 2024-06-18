@@ -1,4 +1,4 @@
-name: Check for updates
+name: Auto Sync Fork
 
 on:
   schedule:
@@ -10,54 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout cloned repository
-        uses: actions/checkout@v2
-
-      - name: Add original repository as upstream
-        run: git remote add upstream https://github.com/EricZimmerman/KapeFiles || true
-
-      - name: Fetch updates from upstream
-        run: git fetch upstream
-
-      - name: Check for upstream/master branch
-        id: check_branch
-        run: echo "branch_exists=$(git branch -r | grep 'upstream/master' || echo '')" >> $GITHUB_ENV
-
-      - name: Check for updates
-        id: check_updates
-        run: |
-          if [ -n "${{ env.branch_exists }}" ]; then
-            UPDATES=$(git log HEAD..upstream/master --oneline || echo '')
-            echo "updates<<EOF" >> $GITHUB_ENV
-            echo "$UPDATES" >> $GITHUB_ENV
-            echo "EOF" >> $GITHUB_ENV
-          else
-            echo "updates=" >> $GITHUB_ENV
-          fi
-
-      - name: Write updates to log
-        run: |
-          echo "Date: $(date +'%Y-%m-%d')" >> updates_log.txt
-          echo "Repository: ${{ github.repository }}" >> updates_log.txt
-          if [ -n "${{ env.branch_exists }}" ]; then
-            if [ -n "${{ env.updates }}" ]; then
-              echo "Updates:" >> updates_log.txt
-              echo "${{ env.updates }}" >> updates_log.txt
-            else
-              echo "No new updates found." >> updates_log.txt
-            fi
-          else
-            echo "Upstream branch 'master' does not exist." >> updates_log.txt
-          fi
-          echo "---" >> updates_log.txt
-
-      - name: Commit and push changes
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add updates_log.txt
-          git commit -m 'Update log with new updates'
-          git push origin HEAD:${{ github.ref_name }}
       - name: Fork Sync
         uses: tgymnich/fork-sync@v2.0.10
-            
+          
