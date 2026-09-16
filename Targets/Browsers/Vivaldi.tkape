@@ -1,7 +1,7 @@
 Description: Vivaldi Artifacts
-Author: Sebastian Søgaard
-Version: 1.0
-Id: 27893cda-f3c7-47df-aacd-2682d49a19e5
+Author: Sebastian Søgaard, Yogesh Khatri
+Version: 1.1
+Id: a5907475-4446-4043-b3f2-5b6b349432b0
 RecreateDirectories: true
 Targets:
     -
@@ -46,6 +46,11 @@ Targets:
         Category: Communications
         Path: C:\Users\%user%\AppData\Local\Vivaldi\User Data\*\
         FileMask: Preferences
+    -
+        Name: Vivaldi Secure Preferences
+        Category: Communications
+        Path: C:\Users\%user%\AppData\Local\Vivaldi\User Data\*\
+        FileMask: Secure Preferences
     -
         Name: Vivaldi Top Sites
         Category: Communications
